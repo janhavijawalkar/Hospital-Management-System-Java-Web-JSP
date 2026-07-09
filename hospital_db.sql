@@ -1,135 +1,112 @@
--- MySQL dump 10.13  Distrib 8.0.42, for Win64 (x86_64)
---
--- Host: localhost    Database: hospital_db
--- ------------------------------------------------------
--- Server version	8.0.42
+-- ===========================================
+-- Hospital Management System Database
+-- Author : Janhavi Jawalkar
+-- Database : hospital_db
+-- ===========================================
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+CREATE DATABASE IF NOT EXISTS hospital_db;
+USE hospital_db;
 
---
--- Table structure for table `appointments`
---
+-- ===========================================
+-- USERS TABLE
+-- ===========================================
 
-DROP TABLE IF EXISTS `appointments`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `appointments` (
-  `appointment_id` int NOT NULL AUTO_INCREMENT,
-  `patient_id` int DEFAULT NULL,
-  `doctor_id` int DEFAULT NULL,
-  `appointment_date` date DEFAULT NULL,
-  PRIMARY KEY (`appointment_id`),
-  KEY `patient_id` (`patient_id`),
-  KEY `doctor_id` (`doctor_id`),
-  CONSTRAINT `appointments_ibfk_1` FOREIGN KEY (`patient_id`) REFERENCES `patients` (`patient_id`),
-  CONSTRAINT `appointments_ibfk_2` FOREIGN KEY (`doctor_id`) REFERENCES `doctors` (`doctor_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS users;
 
---
--- Dumping data for table `appointments`
---
+CREATE TABLE users (
+    user_id INT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(50) NOT NULL
+);
 
-LOCK TABLES `appointments` WRITE;
-/*!40000 ALTER TABLE `appointments` DISABLE KEYS */;
-INSERT INTO `appointments` VALUES (8,10,5,'2026-07-05'),(9,1,1,'2026-07-08'),(10,12,6,'2026-07-08');
-/*!40000 ALTER TABLE `appointments` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO users (username, password)
+VALUES
+('admin','admin123');
 
---
--- Table structure for table `doctors`
---
+-- ===========================================
+-- PATIENTS TABLE
+-- ===========================================
 
-DROP TABLE IF EXISTS `doctors`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `doctors` (
-  `doctor_id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL,
-  `specialization` varchar(100) NOT NULL,
-  PRIMARY KEY (`doctor_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS patients;
 
---
--- Dumping data for table `doctors`
---
+CREATE TABLE patients (
+    patient_id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    age INT NOT NULL,
+    gender VARCHAR(10) NOT NULL,
+    disease VARCHAR(100),
+    contact VARCHAR(15)
+);
 
-LOCK TABLES `doctors` WRITE;
-/*!40000 ALTER TABLE `doctors` DISABLE KEYS */;
-INSERT INTO `doctors` VALUES (1,'Dr. Sharma','Cardiologist'),(4,'Dr.himanshu','Heart'),(5,'Dr.Kapil Sharma','Cancer '),(6,'dr.sherekar','General Physician'),(8,'Dr.Verma','Orthopedic');
-/*!40000 ALTER TABLE `doctors` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO patients
+(name, age, gender, disease, contact)
+VALUES
+('Rahul Sharma',25,'Male','Fever','9876543211'),
+('Priya Patil',21,'Female','Cold','9865471254'),
+('Amit Verma',40,'Male','Diabetes','9876512345'),
+('Sneha Joshi',30,'Female','Migraine','9876509876'),
+('Karan Singh',28,'Male','Fracture','9876540001');
 
---
--- Table structure for table `patients`
---
+-- ===========================================
+-- DOCTORS TABLE
+-- ===========================================
 
-DROP TABLE IF EXISTS `patients`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `patients` (
-  `patient_id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL,
-  `age` int NOT NULL,
-  `gender` varchar(10) NOT NULL,
-  `disease` varchar(100) DEFAULT NULL,
-  `contact` varchar(15) DEFAULT NULL,
-  PRIMARY KEY (`patient_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS doctors;
 
---
--- Dumping data for table `patients`
---
+CREATE TABLE doctors (
+    doctor_id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    specialization VARCHAR(100) NOT NULL
+);
 
-LOCK TABLES `patients` WRITE;
-/*!40000 ALTER TABLE `patients` DISABLE KEYS */;
-INSERT INTO `patients` VALUES (1,'Rahul Sharma',25,'Male','Fever','9876543211'),(2,'Priya Patil',21,'Female','Cold','986547125'),(5,'Janhavi',18,'F','Thyroid','2233445566'),(7,'Raj',23,'m','bone','2233445566'),(9,'Rahul',25,'Male','Fever','1236547890'),(10,'Suraj Jain',30,'Male','Cancer','8796541235'),(11,'Janhavi Jari',21,'Female','Alzimer','7896541235'),(12,'Samay Raina',40,'Male','cold ','1452369874'),(13,'Dhiraj Seni',25,'Male','Throat Infection','5487963215');
-/*!40000 ALTER TABLE `patients` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO doctors
+(name, specialization)
+VALUES
+('Dr. Sharma','Cardiologist'),
+('Dr. Verma','Orthopedic'),
+('Dr. Mehta','Dermatologist'),
+('Dr. Kulkarni','General Physician'),
+('Dr. Gupta','Neurologist');
 
---
--- Table structure for table `users`
---
+-- ===========================================
+-- APPOINTMENTS TABLE
+-- ===========================================
 
-DROP TABLE IF EXISTS `users`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `users` (
-  `user_id` int NOT NULL AUTO_INCREMENT,
-  `username` varchar(50) DEFAULT NULL,
-  `password` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS appointments;
 
---
--- Dumping data for table `users`
---
+CREATE TABLE appointments (
+    appointment_id INT PRIMARY KEY AUTO_INCREMENT,
+    patient_id INT,
+    doctor_id INT,
+    appointment_date DATE,
 
-LOCK TABLES `users` WRITE;
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'admin','admin123');
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
-UNLOCK TABLES;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+    CONSTRAINT fk_patient
+        FOREIGN KEY(patient_id)
+        REFERENCES patients(patient_id)
+        ON DELETE CASCADE,
 
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+    CONSTRAINT fk_doctor
+        FOREIGN KEY(doctor_id)
+        REFERENCES doctors(doctor_id)
+        ON DELETE CASCADE
+);
 
--- Dump completed on 2026-07-08 23:48:43
+INSERT INTO appointments
+(patient_id, doctor_id, appointment_date)
+VALUES
+(1,1,'2026-07-10'),
+(2,3,'2026-07-11'),
+(3,2,'2026-07-12'),
+(4,4,'2026-07-13'),
+(5,5,'2026-07-14');
+
+-- ===========================================
+-- DEFAULT LOGIN
+-- ===========================================
+
+-- Username : admin
+-- Password : admin123
+
+-- ===========================================
+-- END OF DATABASE
+-- ===========================================
