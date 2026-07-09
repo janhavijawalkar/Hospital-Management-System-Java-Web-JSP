@@ -179,13 +179,13 @@ Hospital-Management-System-Java-Web-JSP
 
 ## Book Appointment
 
-![Appointment](screenshots/bookappointment.png)
+![Appointment](screenshots/bookappointmnet.png)
 
 ---
 
 ## View Appointments
 
-![Appointments](screenshots/viewAppointments.png)
+![Appointments](screenshots/viewAppoinments.png)
 
 ---
 
